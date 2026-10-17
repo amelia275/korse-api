@@ -1,6 +1,6 @@
 # Korse API
 
-Backend untuk aplikasi **Korse**, dibuat pakai Laravel. Fungsinya menyediakan data lewat API (course, bab, materi, forum diskusi, pencapaian) yang nanti dipakai aplikasi Flutter Korse yang sudah ada di repo terpisah.
+Backend untuk aplikasi **Korse**, dibuat pakai Laravel. Fungsinya menyediakan data lewat API (course, bab, materi, forum diskusi, pencapaian) yang nanti bisa dipakai aplikasi Flutter Korse yang sudah ada di repo terpisah.
 
 > **Status saat ini:** baru sebatas database + API. **Belum disambungkan ke Flutter.** API baru bisa dites lewat browser atau Postman.
 
