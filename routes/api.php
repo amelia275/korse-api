@@ -24,14 +24,14 @@ Route::get('/threads/{id}', [ThreadController::class, 'show']);
 Route::get('/achievements', [AchievementController::class, 'index']);
 
 
-// Public Routes (Bisa diakses tanpa login)
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Private Routes (Wajib membawa Token Login Sanctum)
+
 Route::middleware('auth:sanctum')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout']);
-}
+});
     
     // Progres & Complete Material
 Route::post('/progress/complete', [ProgressController::class, 'markAsComplete']);
