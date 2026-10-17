@@ -10,7 +10,7 @@ use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\AuthController;
 
 
-
+//ada sedikit tambahan
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
 
