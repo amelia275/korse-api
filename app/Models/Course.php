@@ -17,4 +17,8 @@ class Course extends Model
     {
         return $this->hasMany(Thread::class);
     }
+    public function materials()
+    {
+        return $this->hasManyThrough(MaterialItem::class, Chapter::class);
+    }
 }
