@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 
 class ProgressController extends Controller
 {
-    // Tandai materi selesai oleh user yang sedang login
+   
     public function markAsComplete(Request $request)
     {
         $request->validate([
             'material_id' => 'required|exists:materials,id'
         ]);
 
-        $userId = $request->user()->id; // Menggunakan ID user dari Token yang Login
+        $userId = $request->user()->id; 
 
         $progress = UserProgress::updateOrCreate(
             [
