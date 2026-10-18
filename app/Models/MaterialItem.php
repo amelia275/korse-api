@@ -22,9 +22,15 @@ class MaterialItem extends Model
 
     public function progress()
     {
-        return $this->hasOne(UserProgress::class, 'material_id')->where('user_id', 1);
+        return $this->hasOne(UserProgress::class, 'material_id')
+        ->where('user_id', auth()->id());
     }
 
+    public function userProgress()
+    {
+        return $this->hasMany(UserProgress::class, 'material_id');
+    }
+    
     public function getStatusAttribute()
     {
         return $this->progress?->status ?? 'locked';

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+
     // Hitung persen progres keseluruhan course
     public function getCourseProgress(Request $request, $courseId)
     {
@@ -62,13 +64,44 @@ class CourseController extends Controller
     // GET /api/courses
     public function index()
     {
-        return Course::with('chapters.materials.contentBlocks', 'chapters.materials.progress')->get();
+        $userId = auth()->id();
+
+        return Course::with('chapters.materials.contentBlocks', 'chapters.materials.progress')
+            ->withCount($this->progressCounts($userId))
+            ->get()
+            ->map(fn ($course) => $this->withProgress($course));
     }
 
-    // GET /api/courses/{id}
+
     public function show($id)
     {
-        $course = Course::with('chapters.materials')->findOrFail($id);
-        return $course;
+        $userId = auth()->id();
+
+         $course = Course::with('chapters.materials.progress')
+            ->withCount($this->progressCounts($userId))
+            ->findOrFail($id);
+
+        return $this->withProgress($course);
+    }
+
+        private function progressCounts(int $userId): array
+    {
+        return [
+            'materials',
+            'materials as completed_materials_count' => fn ($q) =>
+                $q->whereHas('userProgress', fn ($p) => $p
+                ->where('user_id', $userId)
+                ->where('status', 'completed')
+            ),
+        ];
+    }
+
+    private function withProgress(Course $course): Course
+    {
+    $course->progress_percentage = $course->materials_count > 0
+        ? round($course->completed_materials_count / $course->materials_count * 100, 2)
+        : 0;
+
+    return $course;
     }
 }
